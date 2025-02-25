@@ -3,6 +3,8 @@ from discord.ext import commands, tasks
 import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
+from flask import Flask
+from threading import Thread
 
 # Load .env file (if using)
 load_dotenv()
@@ -65,4 +67,17 @@ async def pang(ctx):
     await ctx.send("Ping! 🏓")
 
 bot.run(TOKEN)
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Bot is running and active!"
+
+def run():
+    app.run(host='0.0.0.0', port=8080)
+
+# Start the Flask web server in a separate thread
+Thread(target=run).start()
+
 
